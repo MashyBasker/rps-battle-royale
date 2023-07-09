@@ -38,7 +38,6 @@ int main()
     while (1) {
 
         // run the game loop
-        std::cout << "eeeeeeeeee\n";
         update_game_arena();
         // display game arena
         display_arena();
@@ -81,6 +80,10 @@ void print_color(int data)
 // displays the current state of the arena
 void display_arena()
 {
+    int ret = system("clear");
+    if(ret == -1) {
+        perror("Error: Could not clear screen");
+    }
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
             print_color(ground[y][x]);
@@ -97,8 +100,8 @@ void rock(std::vector<std::vector<int>> surr_state)
     for (auto s : surr_state) {
         // if scissor is in the surrounding
         // then change it to rock
-        if (s[0] == 2) {
-            ground[s[1]][s[2]] = 0;
+        if (ground[s[0]][s[1]] == 2) {
+            ground[s[0]][s[1]] = 0;
             // update the count of the respective armies
             rock_count++;
             scissor_count--;
@@ -116,8 +119,8 @@ void paper(std::vector<std::vector<int>> surr_state)
     for (auto s : surr_state) {
         // if rock is in the surrounding
         // then change it to a paper
-        if (s[0] == 0) {
-            ground[s[1]][s[2]] = 1;
+        if (ground[s[0]][s[1]] == 0) {
+            ground[s[0]][s[1]] = 1;
             // update the counts of the respective armies
             paper_count++;
             rock_count--;
@@ -135,8 +138,8 @@ void scissor(std::vector<std::vector<int>> surr_state)
     for (auto s : surr_state) {
         // if paper is in the surrounding
         // then change it to a scissor
-        if (s[0] == 1) {
-            ground[s[1]][s[2]] = 2;
+        if (ground[s[0]][s[1]] == 1) {
+            ground[s[0]][s[1]] = 2;
             // update the counts of respective armies
             scissor_count++;
             paper_count--;
@@ -152,16 +155,12 @@ void game_logic(int y, int x)
     // store current state
     int curr_state = ground[y][x];
     // store surrounding states
-    std::cout << "This works\n";
     std::vector<std::vector<int>> surr_state {
-        { ground[y - 1][x], y - 1, x }, // up
-        { ground[y + 1][x], y + 1, x }, // down
-        { ground[y][x - 1], y, x - 1 }, // left
-        { ground[y][x + 1], y, x + 1 }, // right
+        { y - 1, x }, // up
+        { y + 1, x }, // down
+        { y, x - 1 }, // left
+        { y, x + 1 }, // right
     };
-    for (int i = 0; i < (int)surr_state.size(); i++) {
-        std::cout << surr_state[i][0] << " " << surr_state[i][1] << " " << surr_state[i][2] << "\n";
-    }
 
     // fight
     if (curr_state == 0) {
