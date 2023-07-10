@@ -16,9 +16,14 @@ $ ./rps
 
 ![rps-demo](./media/rps-1.gif)
 
-    **Color Maps**
+**Color Maps**
 
-    - 🟨 => Rock
-    - ⬜ => Paper
-    - 🟥 => Scissor
+- 🟨 => Rock
+- ⬜ => Paper
+- 🟥 => Scissor
 
+# References
+
+- [Cellular Automation Wikipedia](https://en.wikipedia.org/wiki/Cellular_automaton)
+- [The twitter post](https://twitter.com/juanbuis/status/1600155605112496129?lang=en)
+- [Rock-Paper-Scissors](https://en.wikipedia.org/wiki/Rock_paper_scissors)
