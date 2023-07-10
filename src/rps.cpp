@@ -7,8 +7,8 @@
 #include <time.h>
 #include <vector>
 
-#define HEIGHT 70
-#define WIDTH 140
+#define HEIGHT 60
+#define WIDTH 120
 
 /// global data
 const std::string symbol = "■";
