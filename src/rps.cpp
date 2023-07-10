@@ -81,7 +81,11 @@ void print_color(int data)
 // displays the current state of the arena
 void display_arena()
 {
-    system("clear");
+    int ret = system("clear");
+    if(ret == -1) {
+        perror("Error: `system` command was unsuccessful");
+    }
+    
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
             print_color(ground[y][x]);
