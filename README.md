@@ -1,6 +1,6 @@
 # Rock Paper Scissors Battle Royale
 
-Inspired by this [post](https://twitter.com/juanbuis/status/1600155605112496129), I wondered who will win if such an RPS contest were to be held. So I decided to implement it as cellular automata.
+Inspired by this [post](https://twitter.com/juanbuis/status/1600155605112496129), I wondered who will win if such an RPS contest were to be held. So I decided to implement it as cellular automata as a recreational activity.
 
 ## Quick start
 
