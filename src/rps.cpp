@@ -7,11 +7,11 @@
 #include <time.h>
 #include <vector>
 
-#define HEIGHT 50
-#define WIDTH 100
+#define HEIGHT 70
+#define WIDTH 140
 
 /// global data
-const std::string symbol = "#";
+const std::string symbol = "■";
 int ground[HEIGHT][WIDTH] = { 0 };
 long long rock_count = 0;
 long long paper_count = 0;
@@ -21,9 +21,9 @@ long long scissor_count = 0;
 void generate_battleground();
 void print_color(int data);
 void display_arena();
-void rock(std::vector<std::vector<int>> surr_state);
-void paper(std::vector<std::vector<int>> surr_state);
-void scissor(std::vector<std::vector<int>> surr_state);
+void rock(int surr_state[4][2]);
+void paper(int surr_state[4][2]);
+void scissor(int surr_state[4][2]);
 void game_logic(int y, int x);
 void update_game_arena();
 
@@ -35,7 +35,8 @@ int main()
     generate_battleground();
     display_arena();
     // battle loop
-    while (1) {
+    long long total = WIDTH * HEIGHT;
+    while (paper_count != total && scissor_count != total && rock_count != total) {
 
         // run the game loop
         update_game_arena();
@@ -80,10 +81,7 @@ void print_color(int data)
 // displays the current state of the arena
 void display_arena()
 {
-    int ret = system("clear");
-    if (ret == -1) {
-        perror("Error: Could not clear screen");
-    }
+    system("clear");
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
             print_color(ground[y][x]);
@@ -94,77 +92,55 @@ void display_arena()
 
 // identifier for rock is 0
 // rock beats scissor
-void rock(std::vector<std::vector<int>> surr_state)
+void rock(int surr_state[4][2])
 {
-    // implement the rock
-    for (auto s : surr_state) {
-        // if scissor is in the surrounding
-        // then change it to rock
-        if (s[0] < 0 || s[1] < 0) {
-            // avoid negative indexes
+    for (int i = 0; i < 4; i++) {
+        if (surr_state[i][0] < 0 || surr_state[i][1] < 0
+            || surr_state[i][0] >= HEIGHT || surr_state[i][1] >= WIDTH) {
             continue;
         } else {
-            if (ground[s[0]][s[1]] == 2) {
-                ground[s[0]][s[1]] = 0;
-                // update the count of the respective armies
-                rock_count++;
-                scissor_count--;
-            } else {
-                continue;
+            if (ground[surr_state[i][0]][surr_state[i][1]] == 2) {
+                ground[surr_state[i][0]][surr_state[i][1]] = 0;
+                scissor_count++;
+                paper_count--;
             }
         }
-        // do nothing if another rock
-        // or paper is in the surrounding
     }
 }
 
 // identifier for paper is 1
 // paper beats rock
-void paper(std::vector<std::vector<int>>surr_state)
+void paper(int surr_state[4][2])
 {
-    // implement the paper
-    for (auto s : surr_state) {
-        // if rock is in the surrounding
-        // then change it to a paper
-        if (s[0] < 0 || s[1] < 0) {
+    for (int i = 0; i < 4; i++) {
+        if (surr_state[i][0] < 0 || surr_state[i][1] < 0
+            || surr_state[i][0] >= HEIGHT || surr_state[i][1] >= WIDTH) {
             continue;
         } else {
-            if (ground[s[0]][s[1]] == 0) {
-                ground[s[0]][s[1]] = 1;
-                // update the counts of the respective armies
-                paper_count++;
-                rock_count--;
-            } else {
-                continue;
+            if (ground[surr_state[i][0]][surr_state[i][1]] == 0) {
+                ground[surr_state[i][0]][surr_state[i][1]] = 1;
+                scissor_count++;
+                paper_count--;
             }
         }
-        // do nothing if another paper
-        // or scissor is in the surrounding
     }
 }
 
 // identifier for scissor is 2
 // scissor beats paper
-void scissor(std::vector<std::vector<int>>surr_state)
+void scissor(int surr_state[4][2])
 {
-    // implement the scissor
-    for (auto s : surr_state) {
-        // if paper is in the surrounding
-        // then change it to a scissor
-        if (s[0] < 0 || s[1] < 0) {
+    for (int i = 0; i < 4; i++) {
+        if (surr_state[i][0] < 0 || surr_state[i][1] < 0
+            || surr_state[i][0] >= HEIGHT || surr_state[i][1] >= WIDTH) {
             continue;
         } else {
-            if (ground[s[0]][s[1]] == 1) {
-                ground[s[0]][s[1]] = 2;
-                // update the counts of respective armies
+            if (ground[surr_state[i][0]][surr_state[i][1]] == 1) {
+                ground[surr_state[i][0]][surr_state[i][1]] = 2;
                 scissor_count++;
                 paper_count--;
-            } else {
-                continue;
             }
         }
-        // do nothing if another scissor
-        // or rock is in the surrounding
     }
 }
 
@@ -174,11 +150,11 @@ void game_logic(int y, int x)
     // store current state
     int curr_state = ground[y][x];
     // store surrounding states
-    std::vector<std::vector<int>> surr_state {
-        { y - 1, x }, // up
-        { y + 1, x }, // down
-        { y, x - 1 }, // left
-        { y, x + 1 }  // right
+    int surr_state[4][2] = {
+        { y - 1, x },
+        { y + 1, x },
+        { y, x - 1 },
+        { y, x + 1 }
     };
 
     // fight
