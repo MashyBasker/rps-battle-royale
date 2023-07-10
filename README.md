@@ -6,7 +6,7 @@ Inspired by this [post](https://twitter.com/juanbuis/status/1600155605112496129)
 
 Clone the project and `cd` into it
 
-```console
+```bash
 $ chmod +x build.sh // for the first time only
 $ ./build.sh
 $ ./rps
@@ -15,3 +15,10 @@ $ ./rps
 ## Demo
 
 ![rps-demo](./media/rps-1.gif)
+
+    **Color Maps**
+
+    - 🟨 => Rock
+    - ⬜ => Paper
+    - 🟥 => Scissor
+

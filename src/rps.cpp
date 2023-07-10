@@ -64,7 +64,7 @@ void generate_battleground()
 // displays symbol based on color
 // 0 --> Rock    ==> BOLDYELLOW
 // 1 --> Paper   ==> BOLDWHITE
-// 2 --> Scissor ==> BOLDCYAN
+// 2 --> Scissor ==> BOLDRED
 void print_color(int data)
 {
     if (data == 0) {
